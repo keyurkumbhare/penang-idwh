@@ -33,6 +33,54 @@
   </div>
 
   <script src='{{ asset 'js/app.min.js' }}'></script>
+  <script>
+    let navItems = document.querySelectorAll('.c-nav li')
+    var prevItem
+    var subItems = [];
+    for (var i = 0; i < navItems.length; i++) {
+      let item = navItems[i]
+      let label = item.children[0].innerHTML
+      if (label.indexOf('--') == 0) {
+        subItems.push({
+          link: item.innerHTML,
+          classes: item.classList
+        })
+      } else {
+        if (subItems.length > 0) {
+          // Append list to previous item
+          let subNavHTML = '<span class="nav-trigger">▼</span><ul class="nav">'
+          for (var j = 0; j < subItems.length; j++) {
+            subNavHTML += '<li class="' + subItems[j].classes + '">' + subItems[j].link.replace('-- ', '') + '</li>'
+          }
+
+          subNavHTML += '</ul>'
+          prevItem.innerHTML += subNavHTML
+          prevItem.classList.remove('nav-current')
+          prevItem.classList.add('subnav')
+          prevItem.classList.add('nav-wrapper')
+
+        }
+        // Reset
+        prevItem = item
+        subItems = []
+      }
+    }
+    navItems.forEach(nav => {
+      var subMenuItem = nav.textContent.includes('--')
+
+      if(subMenuItem){
+        nav.remove()
+      }    
+    })
+
+    var footerNavItem = document.querySelectorAll('.footer-menu a')
+    footerNavItem.forEach(nav => {
+      if(nav.textContent.includes('--')){
+        var subItemsText = nav.textContent.split('-- ')[1]
+        nav.textContent = subItemsText
+      }
+    })
+  </script>
   {{ ghost_foot }}
 </body>
 </html>

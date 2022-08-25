@@ -58,7 +58,10 @@
   "config": {
     "posts_per_page": 12,
     "card_assets": {
-      "exclude": ["bookmark", "gallery"]
+      "exclude": [
+        "bookmark",
+        "gallery"
+      ]
     },
     "image_sizes": {
       "xxs": {
